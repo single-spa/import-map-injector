@@ -27,9 +27,10 @@ document
               }
 
               return r.json();
-
             } else {
-              throw Error(`${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`)
+              throw Error(
+                `${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`,
+              );
             }
           })
           .catch((err) => {
@@ -51,37 +52,37 @@ document
   });
 
 declare var importMapInjector: {
-  initPromise: Promise<void>
+  initPromise: Promise<void>;
 };
 
 window.importMapInjector = {
   initPromise: Promise.all(jsonPromises)
-  .then((importMaps) => {
-    const finalImportMap = { imports: {}, scopes: {} };
-    for (const importMap of importMaps) {
-      if (importMap.imports) {
-        for (let key in importMap.imports) {
-          finalImportMap.imports[key] = importMap.imports[key];
+    .then((importMaps) => {
+      const finalImportMap = { imports: {}, scopes: {} };
+      for (const importMap of importMaps) {
+        if (importMap.imports) {
+          for (let key in importMap.imports) {
+            finalImportMap.imports[key] = importMap.imports[key];
+          }
+        }
+
+        if (importMap.scopes) {
+          for (let key in importMap.scopes) {
+            finalImportMap.scopes[key] = importMap.scopes[key];
+          }
         }
       }
 
-      if (importMap.scopes) {
-        for (let key in importMap.scopes) {
-          finalImportMap.scopes[key] = importMap.scopes[key];
-        }
-      }
-    }
-
-    const finalImportMapScriptEl = document.createElement("script");
-    finalImportMapScriptEl.type = "importmap";
-    finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
-    document.head.appendChild(finalImportMapScriptEl);
-  })
-  .catch((err) => {
-    console.error(
-      `${errPrefix}: Unable to generate and inject final import map`,
-      err,
-    );
-    throw err;
-  })
-}
+      const finalImportMapScriptEl = document.createElement("script");
+      finalImportMapScriptEl.type = "importmap";
+      finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
+      document.head.appendChild(finalImportMapScriptEl);
+    })
+    .catch((err) => {
+      console.error(
+        `${errPrefix}: Unable to generate and inject final import map`,
+        err,
+      );
+      throw err;
+    }),
+};
