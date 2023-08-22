@@ -1,4 +1,7 @@
 {
   "extends": "ts-important-stuff",
-  "parser": "@babel/eslint-parser"
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "no-unreachable": "off"
+  }
 }

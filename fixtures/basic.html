@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="injector-importmap">
+      {
+        "imports": {
+          "basic": "./overridden-url.js",
+          "basic2": "./basic2.js"
+        }
+      }
+    </script>
+    <script type="injector-importmap">
+      {
+        "imports": {
+          "basic": "./basic.js"
+        }
+      }
+    </script>
+    <script type="injector-importmap" src="./basic3.importmap"></script>
+  </head>
+  <body>
+    <script src="../lib/import-map-injector.js"></script>
+    <script>
+      window.importMapInjector.initPromise.then(() => {
+        import("basic");
+        import("basic2");
+      });
+    </script>
+  </body>
+</html>

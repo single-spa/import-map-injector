@@ -5,10 +5,13 @@ export default {
   input: `./src/import-map-injector.ts`,
   output: {
     format: "iife",
+    dir: "lib",
+    sourcemap: true,
   },
   plugins: [
     babel({
       babelHelpers: "bundled",
+      extensions: [".js", ".jsx", ".mjs", ".ts", ".tsx"],
     }),
     terser(),
   ],
