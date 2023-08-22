@@ -16,16 +16,21 @@ document
       jsonPromises.push(
         fetch(scriptEl.src)
           .then((r: Response) => {
-            if (
-              r.headers.get("content-type").toLowerCase() !==
-              "application/importmap+json"
-            ) {
-              throw Error(
-                `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
-              );
-            }
+            if (r.ok) {
+              if (
+                r.headers.get("content-type").toLowerCase() !==
+                "application/importmap+json"
+              ) {
+                throw Error(
+                  `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
+                );
+              }
 
-            return r.json();
+              return r.json();
+
+            } else {
+              throw Error(`${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`)
+            }
           })
           .catch((err) => {
             console.error(
@@ -45,9 +50,12 @@ document
     }
   });
 
-declare var importMapInjector: Promise<void>;
+declare var importMapInjector: {
+  initPromise: Promise<void>
+};
 
-window.importMapInjector = Promise.all(jsonPromises)
+window.importMapInjector = {
+  initPromise: Promise.all(jsonPromises)
   .then((importMaps) => {
     const finalImportMap = { imports: {}, scopes: {} };
     for (const importMap of importMaps) {
@@ -75,4 +83,5 @@ window.importMapInjector = Promise.all(jsonPromises)
       err,
     );
     throw err;
-  });
+  })
+}
