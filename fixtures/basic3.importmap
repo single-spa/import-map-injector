@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "basic3": "./basic3.js"
+  }
+}
