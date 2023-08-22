@@ -1,0 +1,40 @@
+{
+  "name": "@single-spa/import-map-injector",
+  "version": "1.0.0",
+  "description": "Browser library adding small features to native import maps",
+  "main": "lib/import-map-injector.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./types/import-map-injector.d.ts",
+      "default": "./lib/import-map-injector.js"
+    }
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "eslint src --ext ts",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "build": "concurrently pnpm:build:*",
+    "build:types": "tsc",
+    "build:lib": "rollup -c"
+  },
+  "keywords": [],
+  "author": "Joel Denning",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "@babel/eslint-parser": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-terser": "^0.4.3",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.47.0",
+    "eslint-config-ts-important-stuff": "^1.1.0",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.2",
+    "rollup": "^3.28.0",
+    "typescript": "^5.1.6"
+  }
+}

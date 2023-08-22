@@ -1,0 +1,11 @@
+{
+  "include": ["src/import-map-injector.ts"],
+  "compilerOptions": {
+    "lib": ["dom", "es2020"],
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "outDir": "types"
+  }
+}
