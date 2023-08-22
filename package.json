@@ -15,6 +15,8 @@
     "lint": "eslint src --ext ts",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
+    "watch": "rollup -cw",
+    "test-serve": "node fixtures/server.js",
     "build": "concurrently pnpm:build:*",
     "build:types": "tsc",
     "build:lib": "rollup -c"
@@ -32,6 +34,7 @@
     "concurrently": "^8.2.0",
     "eslint": "^8.47.0",
     "eslint-config-ts-important-stuff": "^1.1.0",
+    "express": "^4.18.2",
     "husky": "^8.0.3",
     "prettier": "^3.0.2",
     "rollup": "^3.28.0",
