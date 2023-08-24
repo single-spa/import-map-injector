@@ -13,6 +13,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "lib",
+    "types"
+  ],
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint src --ext ts",
