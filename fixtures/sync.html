@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="injector-importmap">
+      {
+        "imports": {
+          "basic": "./overridden-url.js",
+          "basic2": "./basic2.js"
+        }
+      }
+    </script>
+    <script type="injector-importmap">
+      {
+        "imports": {
+          "basic": "./basic.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <script src="../lib/import-map-injector.js"></script>
+    <!-- Loading via mapped specifier in <script> isn't supported yet by browsers, so we load by url instead -->
+    <script type="module" src="./basic.js"></script>
+    <script type="module" src="./basic2.js"></script>
+    <script>
+      window.importMapInjector.initPromise.then(async () => {
+        // Load modules via specifier
+        await Promise.all([import("basic"), import('basic2')]);
+        console.log("Import Map Injector ready, import map specifiers can be loaded properly");
+      });
+    </script>
+  </body>
+</html>
