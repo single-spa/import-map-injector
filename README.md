@@ -17,15 +17,15 @@ It's easiest to get best performance with import-map-injector by directly loadin
 
 ```html
 <!-- If you wish to auto-upgrade to latest import-map-injector versions, use the following URLs -->
-<script src="https://cdn.jsdelivr.net/npm/import-map-injector"></script>
-<script src="https://unpkg.com/import-map-injector"></script>
+<script src="https://cdn.jsdelivr.net/npm/@single-spa/import-map-injector"></script>
+<script src="https://unpkg.com/@single-spa/import-map-injector"></script>
 
 <!-- If you wish to pin to a specific version, swap VERSION with the version you're using -->
-<script src="https://cdn.jsdelivr.net/npm/import-map-injector@VERSION"></script>
-<script src="https://unpkg.com/import-map-injector@VERSION"></script>
+<script src="https://cdn.jsdelivr.net/npm/@single-spa/import-map-injector@VERSION"></script>
+<script src="https://unpkg.com/@single-spa/import-map-injector@VERSION"></script>
 
 <!-- If you wish to self host, that's possible too -->
-<script src="./node_modules/import-map-injector/lib/import-map-injector.js"></script>
+<script src="./node_modules/@single-spa/import-map-injector/lib/import-map-injector.js"></script>
 ```
 
 ### Via npm
