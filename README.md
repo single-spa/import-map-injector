@@ -146,7 +146,7 @@ If you're not using external import maps (`<script type="injector-importmap" src
 <script type="module" src="./hello-world.js"></script>
 <script>
   // Loading with mapped import specifiers can be done with dynamic imports
-  import('my-module2');
+  import("my-module2");
 </script>
 ```
 
