@@ -144,7 +144,10 @@ If you're not using external import maps (`<script type="injector-importmap" src
 <script src="./import-map-injector.js"></script>
 <!-- Since there are no external import maps, the import map is installed synchronously and we can immediately load modules -->
 <script type="module" src="./hello-world.js"></script>
-<script type="module" src="./hello-world2.js"></script>
+<script>
+  // Loading with mapped import specifiers can be done with dynamic imports
+  import('my-module2');
+</script>
 ```
 
 #### Asynchronous import map installation
@@ -161,8 +164,7 @@ When using external import maps, import-map-injector must wait for the network r
     }
   }
 </script>
-<script type="injector-importmap" src="external-url.importmap">
-</script>
+<script type="injector-importmap" src="external-url.importmap"></script>
 <script src="./import-map-injector.js"></script>
 <!--
   Since there is an external import map, the import map is installed asynchronously and so we must wait for import map installation

@@ -28,8 +28,10 @@
     <script>
       window.importMapInjector.initPromise.then(async () => {
         // Load modules via specifier
-        await Promise.all([import("basic"), import('basic2')]);
-        console.log("Import Map Injector ready, import map specifiers can be loaded properly");
+        await Promise.all([import("basic"), import("basic2")]);
+        console.log(
+          "Import Map Injector ready, import map specifiers can be loaded properly",
+        );
       });
     </script>
   </body>
