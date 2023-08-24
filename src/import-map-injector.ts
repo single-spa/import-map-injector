@@ -5,84 +5,110 @@ interface ImportMap {
 
 type SpecifierMap = Record<string, string>;
 
-const jsonPromises: Promise<ImportMap>[] = [];
+const importMapJsons: (Promise<ImportMap> | ImportMap)[] = [];
 
 const errPrefix = "import-map-injector:";
 
-document
-  .querySelectorAll<HTMLScriptElement>("script[type=injector-importmap]")
-  .forEach((scriptEl) => {
-    if (scriptEl.src) {
-      jsonPromises.push(
-        fetch(scriptEl.src)
-          .then((r: Response) => {
-            if (r.ok) {
-              if (
-                r.headers.get("content-type").toLowerCase() !==
-                "application/importmap+json"
-              ) {
-                throw Error(
-                  `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
-                );
-              }
+const injectorImportMaps = document.querySelectorAll<HTMLScriptElement>(
+  "script[type=injector-importmap]",
+);
 
-              return r.json();
-            } else {
+injectorImportMaps.forEach((scriptEl) => {
+  if (scriptEl.src) {
+    importMapJsons.push(
+      fetch(scriptEl.src)
+        .then((r: Response) => {
+          if (r.ok) {
+            if (
+              r.headers.get("content-type").toLowerCase() !==
+              "application/importmap+json"
+            ) {
               throw Error(
-                `${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`,
+                `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
               );
             }
-          })
-          .catch((err) => {
-            console.error(
-              `${errPrefix} Error loading import map from URL '${scriptEl.src}'`,
+
+            return r.json();
+          } else {
+            throw Error(
+              `${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`,
             );
-            throw err;
-          }),
-      );
-    } else if (scriptEl.textContent.length > 0) {
-      jsonPromises.push(
-        Promise.resolve().then(() => JSON.parse(scriptEl.textContent)),
-      );
-    } else {
+          }
+        })
+        .catch((err) => {
+          console.error(
+            `${errPrefix} Error loading import map from URL '${scriptEl.src}'`,
+          );
+          throw err;
+        }),
+    );
+  } else if (scriptEl.textContent.length > 0) {
+    let json;
+    try {
+      json = JSON.parse(scriptEl.textContent);
+    } catch (err) {
+      console.error(err);
       throw Error(
-        `${errPrefix} Script with type "injector-importmap" does not contain an importmap`,
+        `${errPrefix} A <script type="injector-importmap"> element contains invalid JSON`,
       );
     }
-  });
+
+    importMapJsons.push(json);
+  } else {
+    throw Error(
+      `${errPrefix} Script with type "injector-importmap" does not contain an importmap`,
+    );
+  }
+});
 
 declare var importMapInjector: {
   initPromise: Promise<void>;
 };
 
-window.importMapInjector = {
-  initPromise: Promise.all(jsonPromises)
-    .then((importMaps) => {
-      const finalImportMap = { imports: {}, scopes: {} };
-      for (const importMap of importMaps) {
-        if (importMap.imports) {
-          for (let key in importMap.imports) {
-            finalImportMap.imports[key] = importMap.imports[key];
-          }
-        }
+const requiresMicroTick = importMapJsons.some(
+  (json) => json instanceof Promise,
+);
 
-        if (importMap.scopes) {
-          for (let key in importMap.scopes) {
-            finalImportMap.scopes[key] = importMap.scopes[key];
-          }
-        }
+if (requiresMicroTick) {
+  window.importMapInjector = {
+    initPromise: Promise.all(importMapJsons)
+      .then((importMaps) => {
+        injectImportMap(importMaps);
+      })
+      .catch((err) => {
+        console.error(
+          `${errPrefix}: Unable to generate and inject final import map`,
+          err,
+        );
+        throw err;
+      }),
+  };
+} else {
+  injectImportMap(importMapJsons as ImportMap[]);
+  window.importMapInjector = {
+    // Import map was injected synchronously, so there's nothing to wait on
+    initPromise: Promise.resolve(),
+  };
+}
+
+function injectImportMap(importMaps: ImportMap[]): void {
+  const finalImportMap = { imports: {}, scopes: {} };
+  for (const importMap of importMaps) {
+    if (importMap.imports) {
+      for (let key in importMap.imports) {
+        finalImportMap.imports[key] = importMap.imports[key];
       }
+    }
 
-      const finalImportMapScriptEl = document.createElement("script");
-      finalImportMapScriptEl.type = "importmap";
-      finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
-      document.head.appendChild(finalImportMapScriptEl);
-    })
-    .catch((err) => {
-      console.error(
-        `${errPrefix}: Unable to generate and inject final import map`,
-        err,
-      );
-      throw err;
-    }),
-};
+    if (importMap.scopes) {
+      for (let key in importMap.scopes) {
+        finalImportMap.scopes[key] = importMap.scopes[key];
+      }
+    }
+  }
+
+  const finalImportMapScriptEl = document.createElement("script");
+  finalImportMapScriptEl.type = "importmap";
+  finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
+  document.head.appendChild(finalImportMapScriptEl);
+}
