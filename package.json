@@ -10,6 +10,9 @@
       "default": "./lib/import-map-injector.js"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint src --ext ts",
@@ -18,6 +21,7 @@
     "watch": "rollup -cw",
     "test-serve": "node fixtures/server.js",
     "build": "concurrently pnpm:build:*",
+    "prepublishOnly": "pnpm run build",
     "build:types": "tsc",
     "build:lib": "rollup -c"
   },
