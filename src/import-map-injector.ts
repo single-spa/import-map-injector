@@ -31,7 +31,7 @@ injectorImportMaps.forEach((scriptEl) => {
             return r.json();
           } else {
             throw Error(
-              `${errPrefix} import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`,
+              `${errPrefix} Import map at url '${scriptEl.src}' must respond with a success HTTP status, but responded with HTTP ${r.status} ${r.statusText}`,
             );
           }
         })
@@ -69,8 +69,12 @@ const requiresMicroTick = importMapJsons.some(
   (json) => json instanceof Promise,
 );
 
+const globalWindow = window as typeof window & {
+  importMapInjector: typeof importMapInjector;
+};
+
 if (requiresMicroTick) {
-  window.importMapInjector = {
+  globalWindow.importMapInjector = {
     initPromise: Promise.all(importMapJsons)
       .then((importMaps) => {
         injectImportMap(importMaps);
@@ -85,7 +89,7 @@ if (requiresMicroTick) {
   };
 } else {
   injectImportMap(importMapJsons as ImportMap[]);
-  window.importMapInjector = {
+  globalWindow.importMapInjector = {
     // Import map was injected synchronously, so there's nothing to wait on
     initPromise: Promise.resolve(),
   };
@@ -112,3 +116,5 @@ function injectImportMap(importMaps: ImportMap[]): void {
   finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
   document.head.appendChild(finalImportMapScriptEl);
 }
+
+export {};
