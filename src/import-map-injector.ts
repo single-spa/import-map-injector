@@ -13,6 +13,11 @@ const injectorImportMaps = document.querySelectorAll<HTMLScriptElement>(
   "script[type=injector-importmap]",
 );
 
+const acceptedImportmapMimeTypes = [
+  "application/json",
+  "application/importmap+json",
+];
+
 injectorImportMaps.forEach((scriptEl) => {
   if (scriptEl.src) {
     importMapJsons.push(
@@ -20,8 +25,9 @@ injectorImportMaps.forEach((scriptEl) => {
         .then((r: Response) => {
           if (r.ok) {
             if (
-              r.headers.get("content-type").toLowerCase() !==
-              "application/importmap+json"
+              !acceptedImportmapMimeTypes.includes(
+                r.headers.get("content-type").toLowerCase(),
+              )
             ) {
               throw Error(
                 `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
