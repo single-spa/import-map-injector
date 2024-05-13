@@ -25,8 +25,11 @@ injectorImportMaps.forEach((scriptEl) => {
         .then((r: Response) => {
           if (r.ok) {
             if (
-              !acceptedImportmapMimeTypes.includes(
-                r.headers.get("content-type").toLowerCase(),
+              !acceptedImportmapMimeTypes.some((acceptedMimeType) =>
+                r.headers
+                  .get("content-type")
+                  .toLowerCase()
+                  .includes(acceptedMimeType),
               )
             ) {
               throw Error(
