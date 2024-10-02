@@ -16,11 +16,16 @@ The import-map-injector.js file must execute before any ES module is loaded by t
 It's easiest to get best performance with import-map-injector by directly loading the import-map-injector.js file into your HTML page via `<script type="text/javascript" src="./import-map-injector.js">`. It is important to place the `<script>` element after any `<script type="injector-importmap">` elements, but before any `<script type="module">` or `<script>import()</script>` elements.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@single-spa/import-map-injector@1.0.0/lib/import-map-injector.min.js"></script>
-<script src="https://unpkg.com/@single-spa/import-map-injector@1.0.0/lib/import-map-injector.js"></script>
+<!-- If you wish to auto-upgrade to latest import-map-injector versions, use the following URLs -->
+<script src="https://cdn.jsdelivr.net/npm/@single-spa/import-map-injector"></script>
+<script src="https://unpkg.com/@single-spa/import-map-injector"></script>
+
+<!-- If you wish to pin to a specific version, swap VERSION with the version you're using -->
+<script src="https://cdn.jsdelivr.net/npm/@single-spa/import-map-injector@VERSION"></script>
+<script src="https://unpkg.com/@single-spa/import-map-injector@VERSION"></script>
 
 <!-- If you wish to self host, that's possible too -->
-<script src="./node_modules/import-map-injector/lib/import-map-injector.js"></script>
+<script src="./node_modules/@single-spa/import-map-injector/lib/import-map-injector.js"></script>
 ```
 
 ### Via npm
