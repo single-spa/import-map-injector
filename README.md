@@ -152,7 +152,7 @@ If you're not using external import maps (`<script type="injector-importmap" src
 
 #### Asynchronous import map installation
 
-When using external import maps, import-map-injector must wait for the network request(s) loading external import map(s) to complete before it can install the browser-native import map. This means you cannot use `<script type="module">` and `import()` in your HTML file until after the import-map-injector's `importMapReady` Promise has been resolved:
+When using external import maps, import-map-injector must wait for the network request(s) loading external import map(s) to complete before it can install the browser-native import map. This means you cannot use `<script type="module">` and `import()` in your HTML file until after the import-map-injector's `initPromise` Promise has been resolved:
 
 **Example:**
 
@@ -171,7 +171,7 @@ When using external import maps, import-map-injector must wait for the network r
   before loading modules with <script type="module"> or import()
 -->
 <script>
-  window.importMapInjector.importMapReady.then(() => {
+  window.importMapInjector.initPromise.then(() => {
     console.log("Ready to dynamically import modules");
     import("my-module");
   });
