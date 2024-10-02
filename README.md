@@ -177,3 +177,21 @@ When using external import maps, import-map-injector must wait for the network r
   });
 </script>
 ```
+
+## Compatibility
+
+import-map-injector is compatible with [import-map-overrides@>=4.1.0](https://github.com/single-spa/import-map-overrides) via an in-code integration. To use the two projects together, do the following:
+
+1. Load import-map-overrides.js **before** import-map-injector.js
+
+```html
+<!-- overrides before injector. import-map-overrides@4.1.0 or greater required -->
+<script src="import-map-overrides.js"></script>
+<script src="import-map-injector.js"></script>
+```
+
+2. Add the `use-injector` attribute to the `<meta name="importmap-type">` element that configures import-map-overrides. See [import-map-overrides docs](https://github.com/single-spa/import-map-overrides/blob/main/docs/configuration.md#import-map-type) for more details
+
+```html
+<meta name="importmap-type" use-injector />
+```
