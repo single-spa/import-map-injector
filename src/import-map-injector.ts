@@ -61,8 +61,8 @@ injectorImportMaps.forEach((scriptEl) => {
   }
 });
 
-if (window['importMapOverrides']) {
-  importMapJsons.push(window['importMapOverrides'].getOverrideMap());
+if (window["importMapOverrides"]) {
+  importMapJsons.push(window["importMapOverrides"].getOverrideMap());
 }
 
 const requiresMicroTick = importMapJsons.some(
@@ -112,10 +112,10 @@ function injectImportMap(importMaps: ImportMap[]): void {
   finalImportMapScriptEl.textContent = JSON.stringify(finalImportMap);
   document.head.appendChild(finalImportMapScriptEl);
 
-  if (window['importMapOverrides']) {
+  if (window["importMapOverrides"]) {
     // import-map-overrides caches the import maps when it initially loads,
     // so it needs to be instructed to clear that cache
-    window['importMapOverrides'].resetDefaultMap();
+    window["importMapOverrides"].resetDefaultMap();
   }
 }
 
