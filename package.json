@@ -23,6 +23,7 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "watch": "rollup -cw",
+    "test": "echo \"No tests\"",
     "test-serve": "node fixtures/server.js",
     "build": "concurrently pnpm:build:*",
     "prepublishOnly": "pnpm run build",
