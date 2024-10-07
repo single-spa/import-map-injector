@@ -63,6 +63,7 @@ injectorImportMaps.forEach((scriptEl) => {
 
 if (window["importMapOverrides"]) {
   importMapJsons.push(window["importMapOverrides"].getOverrideMap());
+  importMapJsons.push(window["importMapOverrides"].getOverrideScopes());
 }
 
 const requiresMicroTick = importMapJsons.some(
