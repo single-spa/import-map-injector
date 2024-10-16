@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "dot": "./basic.js",
+    "dotdot": "../fixtures/basic2.js",
+    "slash": "/fixtures/parent/dot2.js"
+  },
+  "scopes": {
+    "./parent/": {
+      "dot": "./parent/dot.js"
+    }
+  }
+}

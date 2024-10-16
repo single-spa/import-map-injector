@@ -35,6 +35,19 @@ injectorImportMaps.forEach((scriptEl) => {
             );
           }
         })
+        .then((json) => {
+          // https://github.com/single-spa/import-map-injector/issues/17
+          remapExternalAddresses(json.imports ?? {}, scriptEl.src);
+          for (let scope in json.scopes ?? {}) {
+            remapExternalAddresses(json.scopes[scope], scriptEl.src);
+            if (["/", "./", "../"].some((prefix) => scope.startsWith(prefix))) {
+              json.scopes[new URL(scope, scriptEl.src).href] =
+                json.scopes[scope];
+              delete json.scopes[scope];
+            }
+          }
+          return json;
+        })
         .catch((err) => {
           console.error(
             `${errPrefix} Error loading import map from URL '${scriptEl.src}'`,
@@ -123,3 +136,19 @@ function injectImportMap(importMaps: ImportMap[]): void {
 declare var importMapInjector: {
   initPromise: Promise<void>;
 };
+
+interface ModuleMap {
+  [specifer: string]: string;
+}
+
+function remapExternalAddresses(
+  moduleMap: ModuleMap,
+  externalUrl: string,
+): void {
+  for (const specifier in moduleMap) {
+    const address = moduleMap[specifier];
+    if (["/", "./", "../"].some((prefix) => address.startsWith(prefix))) {
+      moduleMap[specifier] = new URL(address, externalUrl).href;
+    }
+  }
+}
