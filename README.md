@@ -35,7 +35,7 @@ As noted above, it's often easier to install import-map-injector via script rath
 With those caviats in mind, import-map-injector is also available on npm:
 
 ```sh
-npm install import-map-injector
+npm install @single-spa/import-map-injector
 ```
 
 #### When bundling
@@ -45,7 +45,7 @@ The following information only applies if you're trying to bundle import-map-inj
 Then it should just be included in your browser bundle with the following import.
 
 ```js
-import "import-map-injector";
+import "@single-spa/import-map-injector";
 ```
 
 It's better for performance to put the import statement at the top of your bundler's main entry file, since import map installation is crucial to page load times.
