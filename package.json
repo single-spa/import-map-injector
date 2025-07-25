@@ -18,8 +18,7 @@
     "types"
   ],
   "scripts": {
-    "prepare": "husky install",
-    "lint": "eslint src --ext ts",
+    "prepare": "husky",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "watch": "rollup -cw",
