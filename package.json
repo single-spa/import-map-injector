@@ -17,6 +17,10 @@
     "lib",
     "types"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/single-spa/import-map-injector"
+  },
   "scripts": {
     "prepare": "husky",
     "format": "prettier --write .",
