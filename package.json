@@ -19,7 +19,6 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "lint": "eslint src --ext ts",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "watch": "rollup -cw",
