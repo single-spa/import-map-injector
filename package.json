@@ -1,6 +1,6 @@
 {
   "name": "@single-spa/import-map-injector",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Browser library adding small features to native import maps",
   "main": "lib/import-map-injector.js",
   "type": "module",
