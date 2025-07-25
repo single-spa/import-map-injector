@@ -19,10 +19,11 @@ injectorImportMaps.forEach((scriptEl) => {
       fetch(scriptEl.src)
         .then((r: Response) => {
           if (r.ok) {
-            if (
-              r.headers.get("content-type").toLowerCase() !==
-              "application/importmap+json"
-            ) {
+            let contentType = r.headers.get("content-type").toLowerCase();
+            if (contentType.includes(";")) {
+              contentType = contentType.slice(0, contentType.indexOf(";"));
+            }
+            if (contentType !== "application/importmap+json") {
               throw Error(
                 `${errPrefix} Import map at url '${scriptEl.src}' does not have the required content-type http response header. Must be 'application/importmap+json'`,
               );

@@ -24,32 +24,31 @@
     "check-format": "prettier --check .",
     "watch": "rollup -cw",
     "test": "echo \"No tests\"",
-    "test-serve": "http-server --mimetypes '{ \"application/importmap+json\": [\"importmap\"] }'",
+    "test-serve": "http-server --mimetypes '{ \"application/importmap+json; charset=utf-8\": [\"importmap\"] }'",
     "build": "concurrently pnpm:build:*",
     "prepublishOnly": "pnpm run build",
     "build:types": "tsc",
     "build:lib": "rollup -c"
   },
-  "keywords": [],
-  "author": "Joel Denning",
-  "license": "MIT",
+  "keywords": [
+    "external import map"
+  ],
+  "author": "Jolyn Denning",
+  "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.22.10",
-    "@babel/eslint-parser": "^7.22.10",
-    "@babel/preset-env": "^7.22.10",
-    "@babel/preset-typescript": "^7.22.5",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-terser": "^0.4.3",
-    "concurrently": "^8.2.0",
-    "eslint": "^8.47.0",
-    "eslint-config-ts-important-stuff": "^1.1.0",
-    "express": "^4.18.2",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-typescript": "^7.27.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-terser": "^0.4.4",
+    "concurrently": "^9.2.0",
+    "express": "^5.1.0",
     "http-server": "^14.1.1",
-    "husky": "^8.0.3",
-    "prettier": "^3.0.2",
-    "pretty-quick": "^4.0.0",
-    "rollup": "^3.28.0",
-    "typescript": "^5.1.6"
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "pretty-quick": "^4.2.2",
+    "rollup": "^4.45.1",
+    "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@9.11.0"
+  "packageManager": "pnpm@10.13.1"
 }
